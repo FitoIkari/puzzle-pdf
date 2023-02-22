@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../styles/style.css" />
+    <title>Node PDF</title>
+  </head>
+  <body>
+    <input type="file" name="pdfOpen" id="pdfOpen" />
+    <div class="box">
+      <div id="file-pages">
+        <br />
+        <br />
+        <div id="pages-a"></div>
+        <div id="pages-b"></div>
+        <br />
+        <br />
+        <button id="creation-button" style="visibility: hidden">
+          Create new file
+        </button>
+      </div>
+      <div class="new-file"></div>
+    </div>
+  </body>
+
+  <script>
+    const $ = (query) => document.querySelector(query);
+    const $$ = (query) => document.querySelectorAll(query);
+
+    const pagesLabelA = $("#pages-a");
+    const pagesLabelB = $("#pages-b");
+    const creationButton = $("#creation-button");
+
+    $("#pdfOpen").addEventListener("click", async (ev) => {
+      ev.preventDefault();
+      const { filePages, title } = await window.fileManager.openFile();
+
+      let pageListHTML = `<h3>${title}</h3>`;
+      for (let i = 1; i <= filePages; i++) {
+        pageListHTML += `<label for='Page-${i}'>Page ${i}</label><input name='Page-${i}' type='checkbox'><br />`;
+      }
+      if (pagesLabelA.innerHTML === "") pagesLabelA.innerHTML = pageListHTML;
+      else pagesLabelB.innerHTML = pageListHTML;
+
+      creationButton.style.visibility = "visible";
+    });
+
+    $("#file-pages").addEventListener("click", (ev) => {
+      if (ev.target.tagName === "INPUT" && ev.target.checked) {
+        $(".new-file").innerHTML +=
+          "<label>" +
+          ev.target.getAttribute("name").replace("-", "") +
+          "<button>-</button><br /></label>";
+      }
+    });
+
+    $(".new-file").addEventListener("click", (ev) => {
+      if (ev.target.tagName === "BUTTON") {
+        const x = ev.target.parentElement;
+        x.parentElement.removeChild(x);
+      }
+    });
+  </script>
+</html>
