@@ -3,8 +3,7 @@ const { dialogManager } = require("./scripts/dialog.js");
 const path = require("path");
 const url = require("url");
 const { menuTemplate } = require("./scripts/MainMenu.js");
-const { PDFDocument } = require("pdf-lib");
-const fs = require("fs");
+const { pdfEngine } = require("../src/scripts/engine.js");
 
 if (process.env.NODE_ENV !== "production")
   require("electron-reload")(__dirname.slice(0, -4), {
@@ -37,11 +36,13 @@ app.on("ready", () => {
 
   ipcMain.handle("openFile", async (ev) => {
     const res = await dialogManager();
-    const title = res.filePaths[0].split("\\").slice(-1)[0].replace(".pdf", "");
-    let pdfBytes = fs.readFileSync(res.filePaths[0]);
+    const title = await pdfEngine.openFile(res.filePaths[0]);
 
-    const pdfDoc = await PDFDocument.load(pdfBytes);
-    return { filePages: pdfDoc.getPageCount(), title };
+    return { filePages: pdfEngine.getFile(title).pdfDoc.getPageCount(), title };
+  });
+
+  ipcMain.handle("createFile", async (ev, args) => {
+    pdfEngine.createNewFile(args);
   });
 });
 

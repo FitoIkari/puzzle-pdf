@@ -1,5 +1,5 @@
 {
-  "name": "p-uzzle-df",
+  "name": "puzzle-pdf",
   "version": "0.0.1",
   "description": "This application prettends to be a simple PDF editor that allows join or separate sheets.",
   "main": "main.js",
