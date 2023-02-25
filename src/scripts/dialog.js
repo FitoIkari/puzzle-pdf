@@ -9,4 +9,11 @@ function dialogManager() {
   return dialog.showOpenDialog(config);
 }
 
-exports.dialogManager = dialogManager;
+function saveDialog(defaultPath) {
+  const config = {
+    defaultPath,
+  };
+  return dialog.showSaveDialog(config);
+}
+
+module.exports = { dialogManager, saveDialog };

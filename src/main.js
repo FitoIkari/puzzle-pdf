@@ -1,5 +1,5 @@
 const { app, BrowserWindow, Menu, ipcMain } = require("electron");
-const { dialogManager } = require("./scripts/dialog.js");
+const { dialogManager, saveDialog } = require("./scripts/dialog.js");
 const path = require("path");
 const url = require("url");
 const { menuTemplate } = require("./scripts/MainMenu.js");
@@ -42,7 +42,17 @@ app.on("ready", () => {
   });
 
   ipcMain.handle("createFile", async (ev, args) => {
-    pdfEngine.createNewFile(args);
+    const defaultPath = path.join(
+      __dirname,
+      "..",
+      "createdFiles",
+      `File_${new Date().getMilliseconds()}.pdf`
+    );
+
+    console.log(defaultPath);
+    const res = await saveDialog(defaultPath);
+
+    if (!res.canceled) await pdfEngine.createNewFile(args, res.filePath);
   });
 });
 

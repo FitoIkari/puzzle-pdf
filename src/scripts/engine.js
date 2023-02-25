@@ -1,6 +1,5 @@
 const { PDFDocument } = require("pdf-lib");
 const fs = require("fs");
-const path = require("path");
 
 const pdfCollection = {};
 
@@ -19,7 +18,7 @@ function addFile(title, pdfDoc) {
   };
 }
 
-async function createNewFile(pagesConfig) {
+async function createNewFile(pagesConfig, filePath) {
   const y = await PDFDocument.create();
 
   for (let i = 0; i < pagesConfig.length; i++) {
@@ -30,11 +29,7 @@ async function createNewFile(pagesConfig) {
     y.addPage(copiedPage);
   }
 
-  await fs
-    .createWriteStream(
-      path.join(__dirname, "..", "..", "createdFiles", "myFile.pdf")
-    )
-    .write(await y.save());
+  await fs.createWriteStream(filePath).write(await y.save());
 }
 
 function getFile(fileName) {
