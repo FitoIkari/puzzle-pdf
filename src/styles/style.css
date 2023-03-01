@@ -3,5 +3,13 @@
   grid-template-columns: repeat(2, 1fr);
 }
 
-.new-file {
+#new-file-title {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 19px;
+  font-weight: bold;
+  border: none;
+  width: 100%;
+  visibility: hidden;
+  justify-self: center;
+  margin: 18.72px 0;
 }

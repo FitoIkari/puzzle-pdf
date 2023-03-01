@@ -8,5 +8,5 @@ contextBridge.exposeInMainWorld("versions", {
 
 contextBridge.exposeInMainWorld("fileManager", {
   openFile: () => ipcRenderer.invoke("openFile"),
-  createFile: (fileConfig) => ipcRenderer.invoke("createFile", fileConfig),
+  createFile: (args) => ipcRenderer.invoke("createFile", args),
 });

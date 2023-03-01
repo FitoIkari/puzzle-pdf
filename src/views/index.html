@@ -11,7 +11,9 @@
     <input type="file" name="pdfOpen" id="pdfOpen" />
     <div class="box">
       <div id="file-pages"></div>
-      <div class="new-file"></div>
+      <div class="new-file">
+        <input type="text" id="new-file-title" value="New File" />
+      </div>
       <button id="creation-button" style="visibility: hidden">
         Create new file
       </button>
@@ -31,6 +33,7 @@
     const pages = $("#file-pages");
     const creationButton = $("#creation-button");
     const newPages = $(".new-file");
+    const newFileTitle = $("#new-file-title");
 
     $("#pdfOpen").addEventListener("click", async (ev) => {
       ev.preventDefault();
@@ -47,6 +50,7 @@
       pages.appendChild(bookBox);
 
       creationButton.style.visibility = "visible";
+      newFileTitle.style.visibility = "visible";
     });
 
     pages.addEventListener("click", (ev) => {
@@ -69,6 +73,7 @@
 
     creationButton.addEventListener("click", (ev) => {
       const PageList = $$("label", newPages);
+      const title = $("input", newPages);
       const newFilePages = [];
 
       for (let i = 0; i < PageList.length; i++) {
@@ -76,7 +81,7 @@
         newFilePages.push([splited[0], splited[1].match(/[0-9]/)[0]]);
       }
 
-      window.fileManager.createFile(newFilePages);
+      window.fileManager.createFile({ title: title.value, newFilePages });
     });
   </script>
 </html>

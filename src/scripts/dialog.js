@@ -13,6 +13,7 @@ function saveDialog(defaultPath) {
   const config = {
     defaultPath,
   };
+
   return dialog.showSaveDialog(config);
 }
 

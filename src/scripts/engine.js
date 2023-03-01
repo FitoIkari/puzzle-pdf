@@ -21,6 +21,8 @@ function addFile(title, pdfDoc) {
 async function createNewFile(pagesConfig, filePath) {
   const y = await PDFDocument.create();
 
+  if (filePath.slice(-4) !== ".pdf") filePath += ".pdf";
+
   for (let i = 0; i < pagesConfig.length; i++) {
     const [copiedPage] = await y.copyPages(
       pdfCollection[pagesConfig[i][0]].pdfDoc,

@@ -42,18 +42,17 @@ app.on("ready", () => {
   });
 
   ipcMain.handle("createFile", async (ev, args) => {
+    const { title, newFilePages } = args;
     const defaultPath = path.join(
       __dirname,
       "..",
       "createdFiles",
-      `File_${new Date().getMilliseconds()}.pdf`
+      `${title}_${title === "New File" ? new Date().getMilliseconds() : ""}.pdf`
     );
 
-    console.log(defaultPath);
     const res = await saveDialog(defaultPath);
 
-    if (!res.canceled) await pdfEngine.createNewFile(args, res.filePath);
+    if (!res.canceled)
+      await pdfEngine.createNewFile(newFilePages, res.filePath);
   });
 });
-
-exports.mainWindow = mainWindow;
