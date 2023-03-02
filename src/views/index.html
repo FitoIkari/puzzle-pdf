@@ -38,6 +38,8 @@
     $("#pdfOpen").addEventListener("click", async (ev) => {
       ev.preventDefault();
       const { filePages, title } = await window.fileManager.openFile();
+      if (title === null || filePages === null) return;
+
       const bookBox = document.createElement("div");
       bookBox.setAttribute("id", title);
 

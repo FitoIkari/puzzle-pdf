@@ -36,8 +36,9 @@ app.on("ready", () => {
 
   ipcMain.handle("openFile", async (ev) => {
     const res = await dialogManager();
-    const title = await pdfEngine.openFile(res.filePaths[0]);
+    if (res.canceled) return { filePages: null, title: null };
 
+    const title = await pdfEngine.openFile(res.filePaths[0]);
     return { filePages: pdfEngine.getFile(title).pdfDoc.getPageCount(), title };
   });
 
